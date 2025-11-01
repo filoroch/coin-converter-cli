@@ -14,6 +14,25 @@ O projeto consiste em um conversor de moedas que roda no terminal (cli/linha de 
 - Conversão e feita
 - renderização no cli
 - Fim
+### Esquema de classes
+- classe de conexão -> responsavel por criar o request, passar os parametros, fazer a requisição, lidar com erros e retornar o response
+    ```mermaid
+        classDiagram
+            class connection {
+                - String ApiToken
+                - String baseUrl
+                - String latestEndpoint 
+                - String pairEndpoint
+
+                + tryConnect() // Recebe um endpoint completo e retorna um response
+                + buildEndpoint(baseUrl, endpoint)
+                + getPairEndpoint() // recebe os parametros, chama buildEndpoint 
+                + getLatestEndpoint(baseUrl, latestEndpoint)
+
+            }
+    ```
+
+- classe de tratamento/parsing -> responsavel por tratar a saida recebida para o padrão legivel JSON , alem de fornecer somente os dados esperados
 ```mermaid
 ---
 title: Coin-converter-cli fluxogram
@@ -28,4 +47,6 @@ flowchart TD
 ```
 
 ## Como rodar
+## Ideias futuras
+- [ ] Implementar interface de conexão para que a api usada seja passada concretamente na classe de conexão
 ## Creditos
