@@ -18,35 +18,43 @@ public class Connection {
     private String baseUrl = "https://v6.exchangerate-api.com/v6/";
     private String apiToken = System.getenv("ExchangeToken");
     private String url = baseUrl + apiToken;
+    private final HttpClient CLIENT = HttpClient.newHttpClient();
 
     // Metodo que faz a conexão de fato e retorna um response
-    private HttpResponse<String> tryConnect () throws URISyntaxException {
+    private String tryConnect (String url) throws URISyntaxException {
+
+        // Criar a requisição
         HttpRequest request = HttpRequest.newBuilder()
-            .uri(new URI(this.url))
+            .uri(new URI(url))
             .GET()
             .build();
 
+        // Cria a resposta
         HttpResponse<String> response = null;
 
+        // Tenta fazer a conexão de fato
         try {
-            response = HttpClient.newHttpClient()
-                .send(request, BodyHandlers.ofString());
+            response = CLIENT.send(request, BodyHandlers.ofString());
         } catch (IOException | InterruptedException e){
             System.out.println("Ocorreu um erro mano, olha aqui: \n" + e);
         }
 
         if (response.statusCode() != 200) {
-            throw new RuntimeException("Conexao mal sucedida: " + response.statusCode());
+            return "Erro: codStatus " + response.statusCode() ;
         }
 
-        return response;
+        return response.body();
     }
     // Metodo que constroi o endpoint com base no baseURL + token + endpoint
-    public HttpResponse<String> latest (String coinCode) throws URISyntaxException{
-        this.url = url + "/latest/" + coinCode;
-        var response = tryConnect();
+    public String latest (String coinCode) throws URISyntaxException{
+        String fullUrl = url + "/latest/" + coinCode;
+        var response = tryConnect(fullUrl);
         return response;
     }
-    // Metodo que recebe os parametros e finaliza o requestURL
-    //  
+
+    public String pair (String baseCoin, String targetCoin) throws URISyntaxException {
+        String fullUrl = url + "/pair/" + baseCoin + "/" + targetCoin;
+        var response = tryConnect(fullUrl);
+        return response;
+    }
 }

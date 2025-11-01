@@ -18,20 +18,25 @@ import com.google.gson.JsonParser;
 
 public class Main {
     public static void main(String[] args) throws IOException, URISyntaxException {
-        
-        
         // Configuração do json
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         
         // Conexão
         var connection = new Connection();
-        var response = connection.latest("BRL");
-    
+        
+        var responsePair = connection.pair("BRL", "USD");
+        System.out.println("\nCotação do BRL em relação ao USD");
+        System.out.println(responsePair);
+        
+        var responseLatest = connection.latest("BRL");
+        System.out.println("\nCotaçõo atual do BRL em relação a outras moedas");
+        System.out.println(responseLatest);
+        
         // Conversão para prettry json
         // JsonElement response = JsonParser.parseReader(new InputStreamReader(conection.getInputStream()));
         // var json = gson.toJson(response);
         
         // Retorno
-        System.out.println(response.body());
+        
     }
 }
