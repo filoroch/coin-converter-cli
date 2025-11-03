@@ -15,21 +15,44 @@ O projeto consiste em um conversor de moedas que roda no terminal (cli/linha de 
 - renderização no cli
 - Fim
 ### Esquema de classes
-- classe de conexão -> responsavel por criar o request, passar os parametros, fazer a requisição, lidar com erros e retornar o response
+- **classe de conexão** -> responsavel por criar o request, passar os parametros, fazer a requisição, lidar com erros e retornar o response
     ```mermaid
-        classDiagram
-            class connection {
-                - String ApiToken
-                - String baseUrl
-                - String latestEndpoint 
-                - String pairEndpoint
+    classDiagram
+    direction TB
+    
+    namespace Connection {
+        class IConnectApi{
+            <<interface>>
+            +getComparatorCoinEndpoint(baseCoin: string, targetCoin: string) string
+            +getCoinRelation() string
+        }
+        
+        class ConnectionApi {
+            -baseURL: string
+            -apiToken: string
+            -url: string
+            +tryConnect() boolean
+            +getComparatorCoinEndpoint(baseCoin: string, targetCoin: string) string
+            +getCoinRelation() string
+        }
+        
+        class ExchangeRateConnectApi {
+            +getComparatorCoinEndpoint(baseCoin: string, targetCoin: string) string
+            +getCoinRelation() string
+        }
 
-                + tryConnect() // Recebe um endpoint completo e retorna um response
-                + buildEndpoint(baseUrl, endpoint)
-                + getPairEndpoint() // recebe os parametros, chama buildEndpoint 
-                + getLatestEndpoint(baseUrl, latestEndpoint)
+        class GenericConnectApi{
+            +getComparatorCoinEndpoint(baseCoin: string, targetCoin: string) string
+            +getCoinRelation() string
+        }
+    }
+    
+    IConnectApi <|.. ConnectionApi : implements
+    ConnectionApi <|-- ExchangeRateConnectApi : extends
+    ConnectionApi <|-- GenericConnectApi : extends
+    
+    note for ConnectionApi "Configura os métodos básicos para conectar em uma API de conversão de taxas"
 
-            }
     ```
 
 - classe de tratamento/parsing -> responsavel por tratar a saida recebida para o padrão legivel JSON , alem de fornecer somente os dados esperados
