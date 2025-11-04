@@ -67,6 +67,27 @@ flowchart TD
 ```
 
 ## Como rodar
+1. Clone o projeto
+    
+    ```bash
+    git clone https://github.com/filoroch/coin-converter-cli
+    ```
+    
+2. Defina as variáveis de ambiente
+    - No windows, execute os codigos abaixo passando o token da api e reinicie o shell
+        
+        ```json
+        setx API_TOKEN "api_token"
+        [Environment]::SetEnvironmentVariable("API_TOKEN", "api_token", "User")
+        
+        ```
+        
+    - No linux/mac
+        
+        ```json
+        export API_TOKEN="api_token"
+        ```
+        
 ## Ideias futuras
 - [ ] Implementar interface de conexão para que a api usada seja passada concretamente na classe de conexão
 ## Creditos
