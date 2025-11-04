@@ -20,39 +20,36 @@ O projeto consiste em um conversor de moedas que roda no terminal (cli/linha de 
     classDiagram
     direction TB
     
-    namespace Connection {
-        class IConnectApi{
-            <<interface>>
-            +getComparatorCoinEndpoint(baseCoin: string, targetCoin: string) string
-            +getCoinRelation() string
-        }
-        
-        class ConnectionApi {
-            -baseURL: string
-            -apiToken: string
-            -url: string
-            +tryConnect() boolean
-            +getComparatorCoinEndpoint(baseCoin: string, targetCoin: string) string
-            +getCoinRelation() string
-        }
-        
-        class ExchangeRateConnectApi {
-            +getComparatorCoinEndpoint(baseCoin: string, targetCoin: string) string
-            +getCoinRelation() string
-        }
+    Connection <|-- "extends" ExchangeRateConnection
+    Connection <|-- "extends" GenericApiRateConnection
+    IApiEndpoints <.. "implements" ExchangeRateConnection
+    IApiEndpoints <.. "implements" GenericApiRateConnection
 
-        class GenericConnectApi{
-            +getComparatorCoinEndpoint(baseCoin: string, targetCoin: string) string
-            +getCoinRelation() string
-        }
+    class Connection{
+        <<abstract>>
+        +String baseUrl
+        +String apiToken
+        +String url = baseUrl + apiToken
+        +void tryConnect()
     }
-    
-    IConnectApi <|.. ConnectionApi : implements
-    ConnectionApi <|-- ExchangeRateConnectApi : extends
-    ConnectionApi <|-- GenericConnectApi : extends
-    
-    note for ConnectionApi "Configura os métodos básicos para conectar em uma API de conversão de taxas"
 
+    class IApiEndpoints{
+        +getCoinComparatorTax()
+        +getCoinComparatorToCoin()
+    }
+
+    class ExchangeRateConnection{
+        +String baseUrl
+        +String apiToken
+        +String url = baseUrl + apiToken
+        +void tryConnect() forma de conectar usando ExchangeRate
+        +void getCoinComparatorTax() 
+        +void getCoinComparatorToCoin()
+    }
+
+    class GenericApiRateConnection{
+
+    }
     ```
 
 - classe de tratamento/parsing -> responsavel por tratar a saida recebida para o padrão legivel JSON , alem de fornecer somente os dados esperados
