@@ -1,3 +1,4 @@
+com\alura\connection\IApiEndpoints.class
+com\alura\connection\ExchangeRateConnection.class
 com\alura\Main.class
-com\alura\Connection.class
-com\alura\IConnection.class
+com\alura\connection\Connection.class

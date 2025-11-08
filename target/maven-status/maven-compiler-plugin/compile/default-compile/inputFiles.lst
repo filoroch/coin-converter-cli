@@ -1,3 +1,4 @@
-C:\Users\filipe.rocha\repositories\coin-converter-cli\src\main\java\com\alura\Connection.java
-C:\Users\filipe.rocha\repositories\coin-converter-cli\src\main\java\com\alura\IConnection.java
-C:\Users\filipe.rocha\repositories\coin-converter-cli\src\main\java\com\alura\Main.java
+C:\Users\filor\repositories\coin-converter-cli\src\main\java\com\alura\connection\Connection.java
+C:\Users\filor\repositories\coin-converter-cli\src\main\java\com\alura\connection\ExchangeRateConnection.java
+C:\Users\filor\repositories\coin-converter-cli\src\main\java\com\alura\connection\IApiEndpoints.java
+C:\Users\filor\repositories\coin-converter-cli\src\main\java\com\alura\Main.java
