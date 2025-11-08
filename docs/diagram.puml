@@ -1,0 +1,39 @@
+@startuml
+package "main" {
+  package "java/com/alura" {
+        class Main {
+        + main(args: String): void
+    }
+    package "connection" {
+            abstract Connection implements IApiEndpoints {
+          - CLIENT: HttpClient
+          + create(useApi: String): Connection
+          + tryConnect(url: String): String
+      }
+            class ExchangeRateConnection extends Connection {
+          - baseUrl: String
+          - apiToken: String
+          - url: String
+          + getCoinToTax(coinCode: String): String
+          + getCoinComparatorToCoin(baseCoin: String, convertedCoin: String): String
+      }
+            interface IApiEndpoints {
+          + getCoinToTax(coin: String): String
+          + getCoinComparatorToCoin(baseCoin: String, convertedCoin: String): String
+      }
+    }
+  }
+  package "resources" {
+  }
+}
+package "test/java/com/alura" {
+    class ConnectionTest {
+      - connection: Connection
+      + setUp(): void
+      + testLatest_precisaRetonar200(): void
+      + testLatest_precisaFalhar(): void
+      + testPair(): void
+  }
+}
+  ConnectionTest o-- Connection: contains
+@enduml
