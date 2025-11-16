@@ -38,10 +38,13 @@ public class Main {
             switch (userInputControl) {
                 case 1: 
                 {
-                    System.out.println("Digite a moeda referencia. Ex: \n-BRL - Real brasileiro\n-USD - Dolar estadunidense");
+                    System.out.println("""
+                            Digite a moeda referencia. Ex:
+                            - BRL: Real brasileiro
+                            - USD: Dolar estadunidense
+                            - EUR: Euro
+                           """);
                     var userInputCoinReference = userInput.nextLine();
-                    userInput.nextLine();
-
                     var responseCoinTax = connection.getCoinToTax(userInputCoinReference);
                     
                     System.out.println("\nCotaçõo atual do " + userInputCoinReference + " em relação a outras moedas");
@@ -51,16 +54,28 @@ public class Main {
 
                 case 2: 
                 {
-                    System.out.println("Digite a moeda referencia base Ex: \n-BRL - Real brasileiro\n-USD - Dolar estadunidense");
+                    System.out.println("""
+                            Digite a moeda referencia. Ex:
+                            - BRL: Real brasileiro
+                            - USD: Dolar estadunidense
+                            - EUR: Euro
+                           """);
                     var userInputBaseCoin = userInput.nextLine();
 
-                    System.out.println("Digite a moeda referencia da qual você deseja obter a cotação em relação a " + userInputBaseCoin + " Ex: \n-BRL - Real brasileiro\n-USD - Dolar estadunidense");
+                    System.out.printf("""
+                            Digite a moeda referencia da qual você deseja obter a cotação em relação a %s. Ex:
+                            - BRL: Real brasileiro
+                            - USD: Dolar estadunidense
+                            - EUR: Euro
+                           """, userInputBaseCoin);
                     var userInputTargetCoin = userInput.nextLine();
-
                     var responseComparator = connection.getCoinComparatorToCoin(userInputBaseCoin, userInputTargetCoin);
-                    
-                    System.out.println("\nCotação do " + userInputBaseCoin + " em relação ao " + userInputTargetCoin + "\n");
-                    System.out.println(responseComparator);
+
+                    JsonObject responseComparatorJson = gson.fromJson(responseComparator, JsonObject.class);
+                    Double coinTargetTax = responseComparatorJson.get("conversion_rate").getAsDouble();
+
+                    System.out.println("\nCotação do " + userInputBaseCoin + " em relação ao " + userInputTargetCoin);
+                    System.out.println(userInputTargetCoin + " "+ coinTargetTax);
                 }
 
                 break;
